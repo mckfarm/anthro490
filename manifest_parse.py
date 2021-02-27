@@ -37,5 +37,6 @@ def qiime_manifest(directory, expression, output):
     df.columns = ["sample-id","absolute-filepath","direction"]
     df.to_csv(output, index=False) #export
 
-qiime_manifest("/projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/sequences/round1/*/", "Paul[0-9]+.*S[0-9]+", "manifest_r1.csv")
-qiime_manifest("/projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/sequences/round2/*/", "Wells[0-9]+.*S[0-9]+", "manifest_r2.csv")
+# qiime_manifest("/projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/sequences/round1/*/", "Paul[0-9]+.*S[0-9]+", "manifest_r1.csv")
+# qiime_manifest("/projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/sequences/round2/*/", "Wells[0-9]+.*S[0-9]+", "manifest_r2.csv")
+qiime_manifest("/projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/sequences/round3/*/", "Sabba-[0-9]+.*S[0-9]+", "manifest_r3.csv")
