@@ -1,7 +1,4 @@
-# Project: S2EBPR 16s analysis - Anthro 490 final project
-# Purpose: Documenting commands and scripts used for QIIME analysis
-# Output: QIIME data files
-# Date: 2/9/21
+# S2EBPR 16s analysis - Anthro 490 final project
 
 Helpful commands:  
 ```
@@ -16,7 +13,7 @@ Programs and computing:
 - Performed on Quest Computing Cluster
 
 Workflow:  
-1) manifest_parse.py
+1) [manifest_parse.py](https://github.com/mckfarm/s2ebpr_16s/blob/main/manifest_parse.py)
 - Creates manifest file for QIIME2 analysis based on filenames
 - Executed with python
 
@@ -56,10 +53,10 @@ qiime demux summarize --i-data /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/ro
 --o-visualization /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/visuals/round3_paired.qzv
 ```
 
-4) dada2.sh
+4) [dada2.sh](https://github.com/mckfarm/s2ebpr_16s/blob/main/dada2.sh)
 - denoise and trim
-- this command creates three files: dada2 quality filtering table (stats), data table of read info that can be coupled to metadata (table), and a list of amplicon sequence variants that will be used for blast (rep_seqs)
-- also includes merging
+- this command creates three files: dada2 quality filtering table (stats), data table of read info that can be coupled to metadata (table), and a list of amplicon sequence variants that will be used for blast or other commands (rep_seqs)
+- also includes merging the three separate sequencing runs
 
 5) mapping
 - couples metadata to sequences
@@ -90,8 +87,8 @@ qiime phylogeny align-to-tree-mafft-fasttree \
 --o-rooted-tree /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/rooted_tree.qza
 ```
 
-7) make Midas classifier from Midas downloads
-- https://midasfieldguide.org/guide/downloads
+7) make [Midas classifier](https://midasfieldguide.org/guide/downloads)
+- Midas is a 16s sequence database specifically for wastewater
 ```
 singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s -B /projects/b1052/shared /projects/b1052/shared/qiime2-core2020.11.simg \
 qiime tools import \
@@ -107,10 +104,9 @@ qiime tools import \
 --output-path /projects/b1052/shared/midas_taxonomy.qza
 ```
 
-8) taxa.sh and taxa_silva.sh
+8) [taxa.sh](https://github.com/mckfarm/s2ebpr_16s/blob/main/taxa.sh) and [taxa_silva.sh](https://github.com/mckfarm/s2ebpr_16s/blob/main/taxa_silva.sh)
 - assigns taxa from Midas and Silva classifiers
-- produces output qzv file for viewing
-- comparison of Midas and Silva taxonomy!!
+- also produces output qzv file for viewing
 
 9) alpha rarefaction curves
 - measure of how diversity changes with sequencing depth
@@ -187,3 +183,7 @@ singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s -B /projects/
 qiime tools extract --input-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/table_8000_genus_silva.qza \
 --output-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/
 ```
+
+13) analysis.R(LINK)
+- Data analysis performed in R with phyloseq
+
