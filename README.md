@@ -1,23 +1,16 @@
-# S2EBPR 16s analysis - Anthro 490 final project
+# Anthro 490 final project - Calumet S2EBPR pilot analysis
 
-Helpful commands:  
-```
-srun --account=e31333 --time=2:00:00 --partition=short --mem=4G --pty bash -l
-module load singularity
-```  
-\ - backslash allows you to type a new line without running the commands  
+## Programs and computing resources:  
+- 16s rRNA amplicon sequence analysis using QIIME2 performed on Northwestern Quest computing cluster
+- Data analysis using R locally - see [analysis.R](URL/TO/R/SCRIPT)
+- Miscellaneous data parsing using Python/Anaconda on computing cluster
 
-Programs and computing:  
-- QIIME2
-- Python/Anaconda
-- Performed on Quest Computing Cluster
-
-Workflow:  
+## QIIME2 workflow:  
 1) [manifest_parse.py](https://github.com/mckfarm/s2ebpr_16s/blob/main/manifest_parse.py)
 - Creates manifest file for QIIME2 analysis based on filenames
 - Executed with python
 
-2) import paired end reads  
+2) import paired end reads 
 ```
 singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s /projects/b1052/shared/qiime2-core2020.11.simg \
 qiime tools import --input-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/scripts/manifest_r1.csv \
@@ -104,8 +97,8 @@ qiime tools import \
 --output-path /projects/b1052/shared/midas_taxonomy.qza
 ```
 
-8) [taxa.sh](https://github.com/mckfarm/s2ebpr_16s/blob/main/taxa.sh) and [taxa_silva.sh](https://github.com/mckfarm/s2ebpr_16s/blob/main/taxa_silva.sh)
-- assigns taxa from Midas and Silva classifiers
+8) [taxa.sh](https://github.com/mckfarm/s2ebpr_16s/blob/main/taxa.sh)
+- assigns taxa from Midas classifier
 - also produces output qzv file for viewing
 
 9) alpha rarefaction curves
@@ -120,7 +113,7 @@ qiime diversity alpha-rarefaction \
 --p-max-depth 15000
 ```
 
-10) alpha and beta diversity and metric extraction
+10) rarefaction
 - picking a depth of 8000 based on rough estimate of plateau in faith_pd rarefaction curve
 ```
 singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s -B /projects/b1052/shared/qiime /projects/b1052/shared/qiime/qiime2-core2020.11.simg \
@@ -130,58 +123,6 @@ qiime diversity core-metrics-phylogenetic \
 --p-sampling-depth 8000 \
 --m-metadata-file /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/metadata.txt \
 --output-dir /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/core-metrics-results-8000
-
-# unweighted unifrac distance_matrix.tsv - moved file from created subdirectory and renamed
-singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s -B /projects/b1052/shared/qiime /projects/b1052/shared/qiime/qiime2-core2020.11.simg \
-qiime tools extract \
---input-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/core-metrics-results-8000/unweighted_unifrac_distance_matrix.qza \
---output-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/core-metrics-results-8000/
-
-# weighted unifrac distance matrix - moved file from created subdirectory and renamed
-singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s -B /projects/b1052/shared/qiime /projects/b1052/shared/qiime/qiime2-core2020.11.simg \
-qiime tools extract \
---input-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/core-metrics-results-8000/weighted_unifrac_distance_matrix.qza \
---output-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/core-metrics-results-8000/
-```
-
-11) emperor pcoa plot
-```
-singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s -B /projects/b1052/shared/qiime /projects/b1052/shared/qiime/qiime2-core2020.11.simg \
-qiime emperor plot --i-pcoa /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/core-metrics-results-8000/weighted_unifrac_pcoa_results.qza \
---m-metadata-file /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/metadata.txt \
---o-visualization /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/visuals/emperor_weighted_unifrac_pcoa_results.qzv
-```
-
-12) relative abundance
-- makes table of relative abundances of taxa at the genus level (p-level=6)
-```
-singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s -B /projects/b1052/shared/qiime /projects/b1052/shared/qiime/qiime2-core2020.11.simg \
-qiime taxa collapse \
---i-table /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/core-metrics-results-8000/rarefied_table.qza \
---i-taxonomy /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/taxonomy.qza --p-level 6 \
---o-collapsed-table /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/table_8000_genus.qza
-```
-- saves table to biom format, which can be converted to other formats
-```
-singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s -B /projects/b1052/shared/qiime /projects/b1052/shared/qiime/qiime2-core2020.11.simg \
-qiime tools extract --input-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/table_8000_genus.qza \
---output-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/
-```
-
-same commands but for the silva classifer results  
-- makes table of relative abundances of taxa at the genus level (p-level=6)
-```
-singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s -B /projects/b1052/shared/qiime /projects/b1052/shared/qiime/qiime2-core2020.11.simg \
-qiime taxa collapse \
---i-table /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/core-metrics-results-8000/rarefied_table.qza \
---i-taxonomy /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/taxonomy_silva.qza --p-level 6 \
---o-collapsed-table /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/table_8000_genus_silva.qza
-```
-- saves table to biom format, which can be converted to other formats
-```
-singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s -B /projects/b1052/shared/qiime /projects/b1052/shared/qiime/qiime2-core2020.11.simg \
-qiime tools extract --input-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/table_8000_genus_silva.qza \
---output-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/
 ```
 
 13) analysis.R(LINK)
