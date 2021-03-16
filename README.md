@@ -1,4 +1,6 @@
 # Anthro 490 final project - Calumet S2EBPR pilot analysis
+McKenna Farmer
+3/17/21
 
 ## Programs and computing resources:  
 - 16s rRNA amplicon sequence analysis using QIIME2 performed on Northwestern Quest computing cluster
@@ -125,6 +127,6 @@ qiime diversity core-metrics-phylogenetic \
 --output-dir /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/core-metrics-results-8000
 ```
 
-13) analysis.R(LINK)
-- Data analysis performed in R with phyloseq
+13) [analysis.R](URL/TO/R/SCRIPT)
+- Analysis of QIIME outputs and visualizations performed in R
 
