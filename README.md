@@ -4,7 +4,7 @@ McKenna Farmer
 
 ## Programs and computing resources:  
 - 16s rRNA amplicon sequence analysis using QIIME2 performed on Northwestern Quest computing cluster
-- Data analysis using R locally - see [analysis_notebook.Rmd](https://github.com/mckfarm/s2ebpr_16s/blob/main/analysis_notebook.Rmd)
+- Data analysis using R locally - see [analysis_notebook.Rmd](https://github.com/mckfarm/s2ebpr_16s/blob/main/analysis_notebook.Rmd) and [analysis_notebook.html](https://github.com/mckfarm/s2ebpr_16s/blob/main/analysis_notebook.html)
 - Miscellaneous data parsing using Python/Anaconda on computing cluster
 
 ## QIIME2 workflow:  
