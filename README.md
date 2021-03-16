@@ -1,4 +1,6 @@
 # Anthro 490 final project - Calumet S2EBPR pilot analysis
+McKenna Farmer
+3/17/21
 
 ## Programs and computing resources:  
 - 16s rRNA amplicon sequence analysis using QIIME2 performed on Northwestern Quest computing cluster
