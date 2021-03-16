@@ -2,7 +2,7 @@
 
 ## Programs and computing resources:  
 - 16s rRNA amplicon sequence analysis using QIIME2 performed on Northwestern Quest computing cluster
-- Data analysis using R locally - see [analysis.R](URL/TO/R/SCRIPT)
+- Data analysis using R locally - see [analysis_notebook.Rmd](https://github.com/mckfarm/s2ebpr_16s/blob/main/analysis_notebook.Rmd)
 - Miscellaneous data parsing using Python/Anaconda on computing cluster
 
 ## QIIME2 workflow:  
@@ -10,7 +10,7 @@
 - Creates manifest file for QIIME2 analysis based on filenames
 - Executed with python
 
-2) import paired end reads 
+2) import paired end reads
 ```
 singularity exec -B /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s /projects/b1052/shared/qiime2-core2020.11.simg \
 qiime tools import --input-path /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/scripts/manifest_r1.csv \
@@ -125,6 +125,5 @@ qiime diversity core-metrics-phylogenetic \
 --output-dir /projects/b1052/Wells_b1042/McKenna/s2ebpr_16s/core-metrics-results-8000
 ```
 
-13) analysis.R(LINK)
-- Data analysis performed in R with phyloseq
-
+13) [analysis_notebook.Rmd](https://github.com/mckfarm/s2ebpr_16s/blob/main/analysis_notebook.Rmd)
+- Data analysis performed in R with phyloseq and other R functions
